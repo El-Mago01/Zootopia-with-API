@@ -1,26 +1,5 @@
-# API Ninjas key:
-API_KEY = "NGvVjduynuMZhmbQ07E7yQhMLvLZFRXtOB3E3uEp"
-
-import requests
 import os
-
-BASE_URL = "https://api.api-ninjas.com/v1/"
-
-
-def get_animals_data(animal):
-    request_URL = f"{BASE_URL}animals?name={animal}"
-    headers = {"X-Api-Key": API_KEY}
-    print("Making the following request", request_URL)
-    animals = requests.get(request_URL, headers)
-    print("Result of the request: ", end="")
-    if "200" in animals.text:
-        print("GET request successful!")
-    animals = animals.json()
-    return animals
-
-def load_animals_data(file_path):
-    with open(file_path, "r") as handle:
-        return json.load(handle)
+import data_fetcher
 
 def load_html_file(file_path):
     with open(file_path, "r") as handle:
@@ -30,7 +9,7 @@ def write_to_new_html_file(content):
     with open("animals.html", "w") as f:
         f.write(content)
         dir_path=os.path.dirname(os.path.realpath(__file__))
-        print(f'File stored in: {dir_path}\\{f.name}')
+        print(f'File stored in: {dir_path}/{f.name}')
 
 def html_if_animal_not_in_DB(user_input):
     animal_repository_str = ''
@@ -69,12 +48,12 @@ def serialize_animal(animal):
 
 def main():
     user_input=input("Animal: ")
-    animals_data=get_animals_data(user_input)
+    animals_data=data_fetcher.fetch_data(user_input)
 
     html_data = load_html_file("animals_template.html")
     __replace__ = "__REPLACE_ANIMALS_INFO__"
     animal_repository_string = ""
-    print("This is the length", len(animals_data))
+    # print("This is the length", len(animals_data))
 
     if len(animals_data) > 0:
         # Animal is found
@@ -87,7 +66,6 @@ def main():
         # Animal is not found
         print("Animal not found in database, please try again")
         animal_repository_string += html_if_animal_not_in_DB(user_input)
-        print(animal_repository_string)
 
     # The replacement below is necessary to avoid a mojibake
     animal_repository_string = animal_repository_string.replace("â€™", "\'")
