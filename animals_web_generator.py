@@ -16,7 +16,7 @@ def html_if_animal_not_in_DB(user_input):
     animal_repository_str += f'<li class="cards__item">\n'
     animal_repository_str += f'<div class="card__title">\n'
     animal_repository_str += f'<h2>\n'
-    animal_repository_str += f'The animal {user_input} does not exist'
+    animal_repository_str += f'The animal <strong>{user_input} </strong> does not exist'
     animal_repository_str += f'</div></li>\n'
     animal_repository_str += f'</h2>\n'
     return animal_repository_str
