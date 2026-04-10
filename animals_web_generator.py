@@ -1,21 +1,6 @@
-# API Ninjas key:
-API_KEY = "NGvVjduynuMZhmbQ07E7yQhMLvLZFRXtOB3E3uEp"
+import json
 
-import requests
-
-BASE_URL = "https://api.api-ninjas.com/v1/"
-
-
-def get_animals_data(animal):
-    request_URL = f"{BASE_URL}animals?name={animal}"
-    headers = {"X-Api-Key": API_KEY}
-    print("Making the following request", request_URL)
-    animals = requests.get(request_URL, headers)
-    print("Result of the request", animals)
-    animals = animals.json()
-    for animal in animals:
-        print(animal)
-    return animals
+file_path="c:/user/marti/PycharmProject/Codio/animals_data.json"
 
 def load_animals_data(file_path):
     with open(file_path, "r") as handle:
@@ -54,24 +39,26 @@ def serialize_animal(fox):
         animal_repository_str="ERROR: fox without a name"
     return animal_repository_str
 
-def main():
-    animals_data=get_animals_data("fox")
-    html_data = load_html_file("animals_template.html")
-    __replace__ = "__REPLACE_ANIMALS_INFO__"
 
-    fox_repository_string = ""
+def main():
+    animals_data = load_animals_data("animals_data.json")
+    html_data=load_html_file("animals_template.html")
+    __replace__= "__REPLACE_ANIMALS_INFO__"
+
+
+    fox_repository_string=""
 
     # for each type of fox in the input json file, create a repository string
     for fox in animals_data:
-        fox_repository_string += serialize_animal(fox)
+        fox_repository_string+=serialize_animal(fox)
 
     # The replacement below is necessary to avoid a mojibake
-    fox_repository_string = fox_repository_string.replace("â€™", "\'")
+    fox_repository_string=fox_repository_string.replace("â€™","\'")
     # Replace the string to replace in the html with the animal repository
-    html_data = html_data.replace(__replace__, fox_repository_string)
+    html_data=html_data.replace(__replace__, fox_repository_string)
 
     write_to_new_html_file(html_data)
-
+    #print(html_data)
 
 if __name__ == "__main__":
     main()
