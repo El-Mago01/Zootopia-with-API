@@ -13,6 +13,7 @@ Without any spaces in front and after the '='-sign
 
 On request, type an animal name. The detailed information will be stored in a file called 'animal.html' 
 
+================================================================
 Contributing Guidelines (Optional):
 The program makes use of the Animal API from API Ninja. 
 The user needs to pursue a valid license from API Ninja. 
